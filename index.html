@@ -39,12 +39,16 @@
     
 
     <script>
-         const folderUrl = "https://api.github.com/repos/stuartcatt/catphoto/contents/eeeee%20cat%20collection/";
+       
+let folderUrl = "https://raw.githubusercontent.com/stuartcatt/catphoto/refs/heads/main/files.json";
+
+
+
        //yayayya open source kitty cat
 
        
         function loadRandomImage() {
-    
+            console.log(folderUrl)
             fetch(folderUrl)
                 .then(response => response.json())
                 .then(data => {
