@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eeeee cat photo</title>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Random Cat Photo">
+    <meta property="og:description" content="Get a random cat photo every time you reload!">
+    <meta property="og:image" content="" id="ogImage">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stuartcatt.github.io/catphoto/embed.html"> <!-- Replace with your website URL -->
+
+</head>
+<body>
+    <style>
+        body {
+            background-color: black;
+        }
+        .title {
+            color:white;
+            text-align: center
+        }
+        .image {
+            margin: auto;
+            display: block;
+        }
+        #changeImageButton {
+            color: white;
+            background-color: black;
+            border-radius: 12px;
+            height: 32px;
+            font-size: 16px;
+            border: solid 2px;
+            border-color: gray;
+            width: 500px;
+            display: block;
+            margin: auto;
+        }
+    </style>
+    <h1 class="title">eeeee cat photos</h1>
+    <button id="changeImageButton">New random cat</button>
+    <img id="randomImage" src="" alt="Random Cat Image" style="max-width: 100%; max-height: 500px;" class="image">
+    <br>
+
+    <script>
+        let folderUrl = "https://raw.githubusercontent.com/stuartcatt/catphoto/refs/heads/main/files.json";
+
+        function loadRandomImage() {
+            console.log(folderUrl);
+            fetch(folderUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const jpgFiles = data.filter(file => file.name.endsWith(".jpg"));
+
+                    if (jpgFiles.length > 0) {
+                        const randomFile = jpgFiles[Math.floor(Math.random() * jpgFiles.length)];
+                        const imageUrl = randomFile.download_url;
+
+                        // Update the image source
+                        document.getElementById("randomImage").src = imageUrl;
+
+                        // Update the og:image meta tag for Discord embed
+                        document.getElementById("ogImage").content = imageUrl;
+                    } else {
+                        document.getElementById("randomImage").alt = "No .jpg files found!";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching folder contents:", error);
+                    document.getElementById("randomImage").alt = "Error fetching image.";
+                });
+        }
+
+        window.onload = loadRandomImage;
+
+        document.getElementById("changeImageButton").addEventListener("click", loadRandomImage);
+    </script>
+
+</body>
+</html>
