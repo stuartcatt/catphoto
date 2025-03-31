@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <script>
+        let folderUrl = "https://raw.githubusercontent.com/stuartcatt/catphoto/refs/heads/main/files.json";
+
+        function loadRandomImage() {
+            console.log(folderUrl);
+            fetch(folderUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const jpgFiles = data.filter(file => file.name.endsWith(".jpg"));
+
+                    if (jpgFiles.length > 0) {
+                        const randomFile = jpgFiles[Math.floor(Math.random() * jpgFiles.length)];
+                        const imageUrl = randomFile.download_url;
+                        document.write(imageUrl)
+                        
+                    } })}
+
+        window.onload = loadRandomImage;
+    </script>
+</body>
+</html>
